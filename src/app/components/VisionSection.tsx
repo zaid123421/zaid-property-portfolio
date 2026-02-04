@@ -7,13 +7,8 @@ import { SectionProps } from '../types/sections';
 export default function VisionSection({ id }: SectionProps) {
   return (
     <section id={id} className="relative py-24 overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
-        <div className="absolute top-10 right-10 w-64 h-64 rounded-full border border-[#C5A358]"></div>
-      </div>
-
       <div className="container mx-auto px-6 relative">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-          
           <div className="w-full lg:w-5/12 relative">
             <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-white border-8">
               <Image

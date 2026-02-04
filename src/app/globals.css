@@ -21,3 +21,82 @@ body {
     border-bottom-right-radius: 60% 20%;
   }
 }
+
+/* حركة blobs واضحة */
+@keyframes blob-move-1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(40px, -60px) scale(1.1); }
+  66%  { transform: translate(-30px, 20px) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes blob-move-2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-50px, 30px) scale(1.05); }
+  66%  { transform: translate(30px, -40px) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes blob-move-3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(20px, 40px) scale(1.1); }
+  66%  { transform: translate(-40px, -30px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.animate-blob-1 {
+  animation: blob-move-1 18s ease-in-out infinite;
+}
+
+.animate-blob-2 {
+  animation: blob-move-2 22s ease-in-out infinite;
+}
+
+.animate-blob-3 {
+  animation: blob-move-3 26s ease-in-out infinite;
+}
+
+/* طفو الصورة */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float {
+  animation: float-soft 6s ease-in-out infinite;
+}
+
+/* نبض ذهبي */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(197, 163, 88, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(197, 163, 88, 0.7);
+  }
+}
+
+.animate-glow {
+  animation: glow 4s ease-in-out infinite;
+}
+
+
+@keyframes text-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-text {
+  animation: text-reveal 0.8s ease-out both;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+.delay-4 { animation-delay: 0.8s; }

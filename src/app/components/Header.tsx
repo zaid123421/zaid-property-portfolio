@@ -44,20 +44,22 @@ export default function Header({ activeSection }: Props) {
                 key={section}
                 href={`#${section}`}
                 className={`
-                  transition-colors duration-500
+                  relative py-2 transition-colors duration-500 text-sm font-bold tracking-wide uppercase group
                   ${
                     scrolled
-                      ? isActive
-                        ? "text-[#C5A358]"
-                        : "text-black"
-                      : isActive
-                      ? "text-[#C5A358]"
-                      : "text-white"
+                      ? isActive ? "text-[#C5A358]" : "text-black"
+                      : isActive ? "text-[#C5A358]" : "text-white"
                   }
                   hover:text-[#C5A358]
                 `}
               >
                 {section.charAt(0).toUpperCase() + section.slice(1)}
+
+                <span className={`
+                  absolute bottom-0 left-0 h-[2px] bg-[#C5A358] transition-all duration-300 ease-in-out
+                  ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}
+                `}></span>
+
               </a>
             );
           })}

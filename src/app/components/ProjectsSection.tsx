@@ -1,6 +1,5 @@
 "use client";
-import { useState } from 'react';
-import { MapPin, Maximize, Building2, ArrowRight } from 'lucide-react';
+import { MapPin, Maximize, Building2 } from 'lucide-react';
 import project1 from '@/app/assets/project-1.jpg';
 import project2 from '@/app/assets/project-2.jpg';
 import project3 from '@/app/assets/project-3.jpg';
