@@ -1,65 +1,109 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useRef, useState } from "react";
+import Header from "./components/Header";
+import HeroSection from "./components/HeroSection";
+import VisionSection from "./components/VisionSection";
+import ProjectsSection from "./components/ProjectsSection";
+import AwardsSection from "./components/AwardsSection";
+import FAQsSection from "./components/FAQSection";
+import ContactSection from "./components/ContactSection";
+
+export default function Page() {
+  const [activeSection, setActiveSection] = useState("home");
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const html = document.documentElement;
+
+    const isMobile = window.innerWidth <= 768;
+    html.style.scrollBehavior = isMobile ? "smooth" : "auto";
+
+    const sections = document.querySelectorAll("section");
+    const links = document.querySelectorAll("a[href^='#']");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    const easeOutExpo = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+    const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+
+    const cancelCurrent = () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+
+    const handleClick = (e: Event) => {
+      e.preventDefault();
+      const href = (e.currentTarget as HTMLAnchorElement).getAttribute("href");
+      if (!href?.startsWith("#")) return;
+
+      const targetId = href.substring(1);
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      const headerEl = document.querySelector("header") as HTMLElement | null;
+      const headerHeight = headerEl ? headerEl.offsetHeight : 0;
+
+      const scrollContainer =
+        document.scrollingElement || document.body || document.documentElement;
+      const startY = scrollContainer.scrollTop;
+      const targetY = target.offsetTop - headerHeight;
+
+      const distance = Math.abs(startY - targetY);
+      const duration = clamp(distance / 0.9, 900, 2500);
+
+      cancelCurrent();
+      let startTime: number | null = null;
+
+      const step = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeOutExpo(progress);
+
+        scrollContainer.scrollTop = startY + (targetY - startY) * eased;
+
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(step);
+        } else {
+          scrollContainer.scrollTop = targetY;
+          rafRef.current = null;
+        }
+      };
+
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    links.forEach((link) => link.addEventListener("click", handleClick));
+
+    return () => {
+      observer.disconnect();
+      cancelCurrent();
+      links.forEach((link) => link.removeEventListener("click", handleClick));
+      html.style.scrollBehavior = "auto";
+    };
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <Header activeSection={activeSection} />
+      <HeroSection id="home" />
+      <VisionSection id="vision" />
+      <ProjectsSection id="projects" />
+      <AwardsSection id="achievments" />
+      <FAQsSection id="faqs" />
+      <ContactSection id="contact" />
+    </>
   );
 }
