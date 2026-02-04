@@ -8,22 +8,19 @@ export default function HeroSection({ id }: SectionProps) {
       id={id}
       className="relative min-h-screen flex items-center justify-center pt-24 pb-12 md:pt-0 md:pb-0 overflow-hidden"
     >
-      {/* الخلفية الكيرف */}
       <div className="curved"></div>
 
       <div className="container mx-auto px-6 z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16">
         
-        {/* قسم الدائرة - تصغير الحجم قليلاً في الموبايل */}
         <div className="relative shrink-0">
           <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full border-4 border-[#C5A358] p-2 shadow-2xl">
             <div className="w-full h-full rounded-full bg-slate-700 overflow-hidden flex items-center justify-center">
-              <span className="text-slate-400 text-[10px] md:text-sm italic">User Image Space</span>
+              <span className="text-slate-400 text-[10px] md:text-sm italic">Zaid&apos;s Image</span>
             </div>
           </div>
           <div className="absolute -top-3 -left-3 w-12 h-12 md:w-20 md:h-20 border-t-4 border-l-4 border-[#C5A358] rounded-tl-2xl md:rounded-tl-3xl"></div>
         </div>
 
-        {/* قسم الكلام - توسيط في الموبايل ومحاذاة يسار في الديسكتوب */}
         <div className="text-center md:text-left max-w-xl">
           <h2 className="text-[#C5A358] text-lg md:text-2xl font-medium tracking-widest uppercase mb-2">
             Zaid Malkat
